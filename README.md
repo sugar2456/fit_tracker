@@ -37,8 +37,8 @@ const service = new ActivityDataService(repository);
 // 活動データのサマリーを取得
 const summary = await service.getActivitySummary('/path/to/data.xml');
 
-// 利用可能なファイル一覧を取得
-const files = await service.getAvailableDataFiles();
+// 利用可能なデータソース一覧を取得
+const sources = await service.getAvailableDataSources();
 ```
 
 ## データ形式

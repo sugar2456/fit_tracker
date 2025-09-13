@@ -41,18 +41,18 @@ export class ActivityDataService {
   constructor(private readonly repository: ActivityDataRepository) {}
 
   /**
-   * 指定されたファイルから活動データを取得し、画面表示用に加工する
+   * 指定された識別子から活動データを取得し、画面表示用に加工する
    */
-  async getActivitySummary(filePath: string): Promise<ActivitySummary> {
-    const data = await this.repository.getActivityData(filePath);
+  async getActivitySummary(identifier: string): Promise<ActivitySummary> {
+    const data = await this.repository.getActivityData(identifier);
     return this.processActivityData(data);
   }
 
   /**
-   * 利用可能な活動データファイルの一覧を取得する
+   * 利用可能な活動データソースの一覧を取得する
    */
-  async getAvailableDataFiles(): Promise<string[]> {
-    return this.repository.getAvailableDataFiles();
+  async getAvailableDataSources(): Promise<string[]> {
+    return this.repository.getAvailableDataSources();
   }
 
   /**
@@ -126,8 +126,8 @@ export class ActivityDataService {
   /**
    * 指定された活動のトラックポイントを取得する
    */
-  async getTrackpointsForActivity(filePath: string, activityId: string): Promise<TrackpointSummary[]> {
-    const data = await this.repository.getActivityData(filePath);
+  async getTrackpointsForActivity(identifier: string, activityId: string): Promise<TrackpointSummary[]> {
+    const data = await this.repository.getActivityData(identifier);
     const activity = data.activities.find(a => a.id === activityId);
     
     if (!activity) {

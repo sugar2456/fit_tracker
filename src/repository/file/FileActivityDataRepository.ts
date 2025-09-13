@@ -11,9 +11,9 @@ export class FileActivityDataRepository implements ActivityDataRepository {
     this.dataDirectory = dataDirectory;
   }
 
-  async getActivityData(filePath: string): Promise<TrainingCenterDatabase> {
+  async getActivityData(identifier: string): Promise<TrainingCenterDatabase> {
     try {
-      const xmlContent = await fs.readFile(filePath, 'utf-8');
+      const xmlContent = await fs.readFile(identifier, 'utf-8');
       const parser = new xml2js.Parser({
         explicitArray: true,
         mergeAttrs: false,
@@ -23,11 +23,11 @@ export class FileActivityDataRepository implements ActivityDataRepository {
       const result = await parser.parseStringPromise(xmlContent);
       return TrainingCenterDatabaseImpl.fromXmlData(result);
     } catch (error) {
-      throw new Error(`Failed to read activity data from file: ${filePath}. Error: ${error}`);
+      throw new Error(`Failed to read activity data from file: ${identifier}. Error: ${error}`);
     }
   }
 
-  async getAvailableDataFiles(): Promise<string[]> {
+  async getAvailableDataSources(): Promise<string[]> {
     try {
       const files = await fs.readdir(this.dataDirectory);
       return files
