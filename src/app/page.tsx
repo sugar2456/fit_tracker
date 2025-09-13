@@ -1,3 +1,5 @@
+import Link from 'next/link';
+
 export default function Home() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800">
@@ -32,17 +34,22 @@ export default function Home() {
             </div>
             
             <div className="bg-white dark:bg-gray-700 p-6 rounded-lg shadow-lg">
-              <div className="text-3xl mb-4">🎯</div>
+              <div className="text-3xl mb-4">🗺️</div>
               <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
-                目標設定
+                3D地図
               </h3>
               <p className="text-gray-600 dark:text-gray-300">
-                個人の目標を設定し、達成をサポート
+                活動ルートを3D地図で確認
               </p>
             </div>
           </div>
           
-          <div className="mt-12">
+          <div className="mt-12 space-x-4">
+            <Link href="/map">
+              <button className="bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-8 rounded-lg text-lg transition-colors">
+                3D地図を見る
+              </button>
+            </Link>
             <button className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-lg text-lg transition-colors">
               今すぐ始める
             </button>
