@@ -1,64 +1,65 @@
 # Fit Tracker
 
-フィットネス目標を追跡し、健康的な生活をサポートするNext.jsアプリケーションです。
+Fitbitの活動データを管理・分析するためのアプリケーションです。
 
-## 機能
+## アーキテクチャ
 
-- 🏃‍♂️ 運動記録: 日々の運動を記録し、進捗を可視化
-- 📊 データ分析: 詳細な統計とグラフで成果を確認
-- 🎯 目標設定: 個人の目標を設定し、達成をサポート
+このプロジェクトは以下のレイヤーで構成されています：
 
-## 技術スタック
+### ドメインモデル (`src/domain/`)
+- `Position`: 位置情報（緯度・経度）
+- `HeartRate`: 心拍数データ
+- `Trackpoint`: GPSトラックポイント（時間、位置、高度、距離、心拍数）
+- `Lap`: ラップ情報（時間、距離、カロリー、強度など）
+- `Activity`: 活動情報（スポーツ種別、ラップの集合）
+- `TrainingCenterDatabase`: 全体のデータベース構造
 
-- **フレームワーク**: Next.js 15
-- **言語**: TypeScript
-- **スタイリング**: Tailwind CSS
-- **リンター**: ESLint
-- **コンテナ**: Docker
+### リポジトリ層 (`src/repository/`)
+- **インターフェース** (`interfaces/`): `ActivityDataRepository` - データアクセスの抽象化
+- **ファイル実装** (`file/`): `FileActivityDataRepository` - XMLファイルからのデータ読み込み
 
-## セットアップ
+### サービス層 (`src/services/`)
+- `ActivityDataService`: ビジネスロジックを担当
+  - データの加工・集計
+  - 画面表示用のデータ変換
+  - 統計情報の計算
 
-### Dockerを使用した開発
+## 使用方法
 
-1. Docker Composeを使用してアプリケーションを起動:
-```bash
-docker compose up --build
+```typescript
+import { FileActivityDataRepository } from './repository/file';
+import { ActivityDataService } from './services';
+
+// リポジトリとサービスのインスタンスを作成
+const repository = new FileActivityDataRepository();
+const service = new ActivityDataService(repository);
+
+// 活動データのサマリーを取得
+const summary = await service.getActivitySummary('/path/to/data.xml');
+
+// 利用可能なファイル一覧を取得
+const files = await service.getAvailableDataFiles();
 ```
 
-2. ブラウザで `http://localhost:3000` にアクセス
+## データ形式
 
-### ローカル開発
+現在はGarminのTrainingCenterDatabase形式（XML）をサポートしています。将来的にはFitbit REST APIからのデータ取得にも対応予定です。
 
-1. 依存関係をインストール:
+## 開発
+
 ```bash
+# 依存関係のインストール
 npm install
-```
 
-2. 開発サーバーを起動:
-```bash
+# 開発サーバーの起動
 npm run dev
+
+# ビルド
+npm run build
 ```
 
-3. ブラウザで `http://localhost:3000` にアクセス
+## 拡張性
 
-## 利用可能なスクリプト
-
-- `npm run dev`: 開発サーバーを起動
-- `npm run build`: 本番用ビルドを作成
-- `npm run start`: 本番サーバーを起動
-- `npm run lint`: ESLintでコードをチェック
-
-## プロジェクト構造
-
-```
-fit_tracker/
-├── src/
-│   └── app/
-│       ├── layout.tsx
-│       ├── page.tsx
-│       └── globals.css
-├── public/
-├── Dockerfile
-├── docker-compose.yml
-└── package.json
-```
+- リポジトリインターフェースにより、データソースの切り替えが容易
+- ドメインモデルはビジネスロジックから独立
+- サービス層で画面表示用のデータ変換を一元管理
