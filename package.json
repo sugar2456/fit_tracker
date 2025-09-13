@@ -13,12 +13,14 @@
   },
   "dependencies": {
     "@types/xml2js": "^0.4.14",
+    "cesium": "^1.133.1",
     "next": "15.5.3",
     "react": "19.1.0",
     "react-dom": "19.1.0",
     "xml2js": "^0.6.2"
   },
   "devDependencies": {
+    "@anthropic-ai/claude-code": "^1.0.113",
     "@eslint/eslintrc": "^3",
     "@tailwindcss/postcss": "^4",
     "@types/jest": "^30.0.0",
