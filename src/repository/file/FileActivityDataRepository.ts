@@ -1,6 +1,7 @@
 import * as fs from 'fs/promises';
 import * as path from 'path';
 import * as xml2js from 'xml2js';
+import { Dirent } from 'fs';
 import { ActivityDataRepository } from '../interfaces';
 import { TrainingCenterDatabase, TrainingCenterDatabaseImpl } from '../../domain';
 
@@ -29,10 +30,16 @@ export class FileActivityDataRepository implements ActivityDataRepository {
 
   async getAvailableDataSources(): Promise<string[]> {
     try {
-      const files = await fs.readdir(this.dataDirectory);
+      const files = await fs.readdir(this.dataDirectory) as (string | Dirent)[];
       return files
-        .filter(file => file.endsWith('.xml'))
-        .map(file => path.join(this.dataDirectory, file));
+        .filter(file => {
+          const fileName = typeof file === 'string' ? file : file.name;
+          return fileName.endsWith('.xml');
+        })
+        .map(file => {
+          const fileName = typeof file === 'string' ? file : file.name;
+          return path.join(this.dataDirectory, fileName);
+        });
     } catch (error) {
       throw new Error(`Failed to read data directory: ${this.dataDirectory}. Error: ${error}`);
     }

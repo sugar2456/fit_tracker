@@ -56,7 +56,29 @@ npm run dev
 
 # ビルド
 npm run build
+
+# テスト実行
+npm test
+
+# テスト（ウォッチモード）
+npm run test:watch
+
+# テストカバレッジ
+npm run test:coverage
 ```
+
+## テスト
+
+このプロジェクトには包括的なテストスイートが含まれています：
+
+- **FileActivityDataRepository**: XMLファイルの読み込み、パース、エラーハンドリングのテスト
+- **ActivityDataService**: ビジネスロジック、データ加工、統計計算のテスト
+
+### テストカバレッジ
+- 文のカバレッジ: 97.01%
+- ブランチのカバレッジ: 70.74%
+- 関数のカバレッジ: 100%
+- 行のカバレッジ: 96.8%
 
 ## 拡張性
 
