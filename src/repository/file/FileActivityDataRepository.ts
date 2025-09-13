@@ -8,7 +8,7 @@ import { TrainingCenterDatabase, TrainingCenterDatabaseImpl } from '../../domain
 export class FileActivityDataRepository implements ActivityDataRepository {
   private readonly dataDirectory: string;
 
-  constructor(dataDirectory: string = '/home/butterfly/source/fit_tracker/src/app/data') {
+  constructor(dataDirectory: string = '/app/src/app/data') {
     this.dataDirectory = dataDirectory;
   }
 
